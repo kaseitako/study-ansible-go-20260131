@@ -1,0 +1,32 @@
+services:
+  bastion:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: bastion
+    hostname: bastion
+    networks:
+      ansible_network:
+        ipv4_address: 172.20.0.10
+    ports:
+      - "2222:22"
+
+  webserver:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: webserver
+    hostname: webserver
+    networks:
+      ansible_network:
+        ipv4_address: 172.20.0.20
+    ports:
+      - "2223:22"
+      - "8080:8080"
+
+networks:
+  ansible_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
