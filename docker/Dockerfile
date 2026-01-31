@@ -14,7 +14,6 @@ RUN mkdir /var/run/sshd
 
 # Create ansible user with sudo privileges
 RUN useradd -m -s /bin/bash ansible && \
-    echo 'ansible:ansible' | chpasswd && \
     echo 'ansible ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Setup SSH for ansible user
