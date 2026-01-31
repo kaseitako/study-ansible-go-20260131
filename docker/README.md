@@ -20,8 +20,10 @@
 ### ローカル → 踏み台
 
 ```bash
-ssh -i ssh_keys/ansible_key -p 2222 ansible@localhost
+ssh -A -i ssh_keys/ansible_key -p 2222 ansible@localhost
 ```
+
+`-A` オプションでAgent Forwardingを有効化。
 
 ### 踏み台 → Webサーバー
 
@@ -29,15 +31,14 @@ ssh -i ssh_keys/ansible_key -p 2222 ansible@localhost
 
 ```bash
 ssh ansible@172.20.0.20
-# パスワード: ansible
 ```
 
-### ローカル → 踏み台 → Webサーバー（ProxyJump）
+Agent Forwardingにより、ローカルの鍵が使われるためパスワード不要。
+
+### ローカル → 踏み台 → Webサーバー（直接）
 
 ```bash
-ssh -i ssh_keys/ansible_key \
-    -o ProxyCommand="ssh -i ssh_keys/ansible_key -p 2222 -W %h:%p ansible@localhost" \
-    ansible@172.20.0.20
+ssh -i ssh_keys/ansible_key -J ansible@localhost:2222 ansible@172.20.0.20
 ```
 
 ## 停止
