@@ -2,6 +2,9 @@
 
 set -e
 
+# Move to project root
+cd "$(dirname "$0")/.."
+
 echo "=== Ansible Learning Environment Setup ==="
 
 # Create SSH keys directory
