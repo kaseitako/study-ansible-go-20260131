@@ -30,10 +30,10 @@ sleep 3
 # Copy public key to containers
 echo "Copying SSH public key to containers..."
 for container in bastion webserver; do
-    docker exec $container mkdir -p /home/ansible/.ssh
-    docker cp ssh_keys/ansible_key.pub $container:/home/ansible/.ssh/authorized_keys
-    docker exec $container chown ansible:ansible /home/ansible/.ssh/authorized_keys
-    docker exec $container chmod 600 /home/ansible/.ssh/authorized_keys
+    docker exec "$container" mkdir -p /home/ansible/.ssh
+    docker cp ssh_keys/ansible_key.pub "$container":/home/ansible/.ssh/authorized_keys
+    docker exec "$container" chown ansible:ansible /home/ansible/.ssh/authorized_keys
+    docker exec "$container" chmod 600 /home/ansible/.ssh/authorized_keys
 done
 
 echo ""
