@@ -9,6 +9,8 @@
 
 両コンテナともUbuntu 22.04ベースで、SSH接続可能。
 
+`./docker/start-containers.sh` を実行することで、これらのコンテナを起動できる。
+
 ## start-containers.sh の処理内容
 
 1. SSH鍵ペア（ed25519）を `ssh_keys/` に生成
