@@ -19,6 +19,14 @@
 
 ## SSH接続手順
 
+### 事前準備（Agent Forwarding用）
+
+踏み台経由でWebサーバーに接続する場合、事前にssh-agentに秘密鍵を登録しておく：
+
+```bash
+ssh-add ssh_keys/ansible_key
+```
+
 ### ローカル → 踏み台
 
 ```bash
@@ -36,6 +44,8 @@ ssh ansible@172.20.0.20
 ```
 
 Agent Forwardingにより、ローカルの鍵が使われるためパスワード不要。
+
+**注意**: パスワードを聞かれる場合は、`ssh-add` で鍵を登録しているか確認すること。
 
 ### ローカル → 踏み台 → Webサーバー（直接）
 
