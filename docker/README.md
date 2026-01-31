@@ -41,6 +41,8 @@ Agent Forwardingにより、ローカルの鍵が使われるためパスワー�
 ssh -i ssh_keys/ansible_key -J ansible@localhost:2222 ansible@172.20.0.20
 ```
 
+`-J` オプション（ProxyJump）で踏み台を経由して直接接続。
+
 ## 停止
 
 ```bash
