@@ -1,0 +1,60 @@
+---
+# Goアプリケーションをwebserverにデプロイするplaybook
+# webserverは踏み台(bastion)経由でアクセス
+
+- name: Deploy Go application to webserver
+  hosts: webservers
+  become: yes
+
+  vars:
+    app_name: app
+    app_src: ../app
+    app_dest: /opt/app
+    app_port: 8080
+
+  tasks:
+    - name: Create application directory
+      file:
+        path: "{{ app_dest }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy application binary
+      copy:
+        src: "{{ app_src }}"
+        dest: "{{ app_dest }}/{{ app_name }}"
+        mode: '0755'
+      notify: Restart application
+
+    - name: Create systemd service file
+      copy:
+        dest: /etc/systemd/system/goapp.service
+        content: |
+          [Unit]
+          Description=Go Application
+          After=network.target
+
+          [Service]
+          Type=simple
+          ExecStart={{ app_dest }}/{{ app_name }}
+          Restart=always
+          RestartSec=5
+          Environment=PORT={{ app_port }}
+
+          [Install]
+          WantedBy=multi-user.target
+      notify: Restart application
+
+    - name: Enable and start application
+      systemd:
+        name: goapp
+        enabled: yes
+        state: started
+        daemon_reload: yes
+
+  handlers:
+    - name: Restart application
+      systemd:
+        name: goapp
+        state: restarted
+        daemon_reload: yes
