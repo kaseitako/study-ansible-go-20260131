@@ -36,10 +36,8 @@ RUN mkdir -p /home/ansible/.ssh && \
 # Setup Go environment for ansible user
 RUN mkdir -p /home/ansible/go && \
     chown ansible:ansible /home/ansible/go && \
-    echo 'export PATH="/usr/local/go/bin:$PATH"' >> /home/ansible/.bashrc && \
     echo 'export GOPATH="/home/ansible/go"' >> /home/ansible/.bashrc && \
-    echo 'export PATH="$GOPATH/bin:$PATH"' >> /home/ansible/.bashrc
-
+    echo 'export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"' >> /home/ansible/.bashrc
 EXPOSE 22
 
 CMD ["/usr/sbin/sshd", "-D"]
