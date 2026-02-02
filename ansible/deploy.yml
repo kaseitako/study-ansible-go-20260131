@@ -21,7 +21,7 @@
 
     - name: Copy application binary
       copy:
-        src: "{{ app_src }}"
+        src: "{{ app_src }}/{{ app_name }}"
         dest: "{{ app_dest }}/{{ app_name }}"
         mode: '0755'
       notify: Restart application
